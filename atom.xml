@@ -33,6 +33,15 @@
         <updated>2025-04-22T21:38:41.323Z</updated>
     </entry>
     <entry>
+        <id>http://akasakajelos.github.io/2025/04/22/about/</id>
+        <title>about</title>
+        <link rel="alternate" href="http://akasakajelos.github.io/2025/04/22/about/"/>
+        <content type="html">&lt;p&gt;Hello there, welcome to my page!&lt;/p&gt;
+&lt;p&gt;This is a test!&lt;/p&gt;
+</content>
+        <updated>2025-04-22T17:35:08.000Z</updated>
+    </entry>
+    <entry>
         <id>http://akasakajelos.github.io/2025/04/22/Hello-World-0/</id>
         <title>Hello, World</title>
         <link rel="alternate" href="http://akasakajelos.github.io/2025/04/22/Hello-World-0/"/>
