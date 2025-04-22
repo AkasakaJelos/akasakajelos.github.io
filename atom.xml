@@ -1,14 +1,16 @@
 <?xml version="1.0"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>http://example.com</id>
-    <title>Yggdrastil</title>
-    <subtitle></subtitle>
+    <title>Domus Sapientiae</title>
+    <subtitle>Yggdrastil</subtitle>
     <icon>http://example.com/images/favicon.ico</icon>
     <link href="http://example.com" />
     <author>
       <name>Akasaka Jelos</name>
     </author>
     <updated>2025-04-22T21:38:41.323Z</updated>
+    <category term="关键词1" />
+    <category term="关键词2" />
     <entry>
         <id>http://example.com/2025/04/22/hello-world/</id>
         <title>Hello World</title>

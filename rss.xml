@@ -1,17 +1,19 @@
 <?xml version="1.0"?>
 <rss version="2.0">
     <channel>
-        <title>Yggdrastil</title>
-        <subtitle></subtitle>
+        <title>Domus Sapientiae</title>
+        <subtitle>Yggdrastil</subtitle>
         <icon>http://example.com/images/favicon.ico</icon>
         <link>http://example.com</link>
         <author>
           <name>Akasaka Jelos</name>
         </author>
-        <description></description>
-        <language>en</language>
+        <description>A webpage for test</description>
+        <language>zh-CN</language>
         <pubDate>Tue, 22 Apr 2025 23:38:41 +0200</pubDate>
         <lastBuildDate>Tue, 22 Apr 2025 23:38:41 +0200</lastBuildDate>
+        <category term="关键词1" />
+        <category term="关键词2" />
         <item>
             <guid isPermalink="true">http://example.com/2025/04/22/hello-world/</guid>
             <title>Hello World</title>

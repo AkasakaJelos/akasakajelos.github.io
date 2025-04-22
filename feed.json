@@ -1,9 +1,9 @@
 {
     "version": "https://jsonfeed.org/version/1",
-    "title": "Yggdrastil",
-    "subtitle": "",
+    "title": "Domus Sapientiae",
+    "subtitle": "Yggdrastil",
     "icon": "http://example.com/images/favicon.ico",
-    "description": "",
+    "description": "A webpage for test",
     "home_page_url": "http://example.com",
     "items": [
         {
