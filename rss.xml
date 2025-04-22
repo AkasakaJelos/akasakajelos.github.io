@@ -2,22 +2,22 @@
 <rss version="2.0">
     <channel>
         <title>Domus Sapientiae</title>
-        <subtitle>Yggdrastil</subtitle>
-        <icon>http://example.com/images/favicon.ico</icon>
-        <link>http://example.com</link>
+        <subtitle>My smoll webpage</subtitle>
+        <icon>http://akasakajelos.github.io/images/favicon.ico</icon>
+        <link>http://akasakajelos.github.io</link>
         <author>
           <name>Akasaka Jelos</name>
         </author>
         <description>A webpage for test</description>
-        <language>zh-CN</language>
+        <language>en</language>
         <pubDate>Tue, 22 Apr 2025 23:38:41 +0200</pubDate>
         <lastBuildDate>Tue, 22 Apr 2025 23:38:41 +0200</lastBuildDate>
         <category term="关键词1" />
         <category term="关键词2" />
         <item>
-            <guid isPermalink="true">http://example.com/2025/04/22/hello-world/</guid>
+            <guid isPermalink="true">http://akasakajelos.github.io/2025/04/22/hello-world/</guid>
             <title>Hello World</title>
-            <link>http://example.com/2025/04/22/hello-world/</link>
+            <link>http://akasakajelos.github.io/2025/04/22/hello-world/</link>
             <pubDate>Tue, 22 Apr 2025 23:38:41 +0200</pubDate>
             <description><![CDATA[ &lt;p&gt;Welcome to &lt;span class=&#34;exturl&#34; data-url=&#34;aHR0cHM6Ly9oZXhvLmlvLw==&#34;&gt;Hexo&lt;/span&gt;! This is your very first post. Check &lt;span class=&#34;exturl&#34; data-url=&#34;aHR0cHM6Ly9oZXhvLmlvL2RvY3Mv&#34;&gt;documentation&lt;/span&gt; for more info. If you get any problems when using Hexo, you can find the answer in &lt;span class=&#34;exturl&#34; data-url=&#34;aHR0cHM6Ly9oZXhvLmlvL2RvY3MvdHJvdWJsZXNob290aW5nLmh0bWw=&#34;&gt;troubleshooting&lt;/span&gt; or you can ask me on &lt;span class=&#34;exturl&#34; data-url=&#34;aHR0cHM6Ly9naXRodWIuY29tL2hleG9qcy9oZXhvL2lzc3Vlcw==&#34;&gt;GitHub&lt;/span&gt;.&lt;/p&gt;
 &lt;h2 id=&#34;quick-start&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#quick-start&#34;&gt;#&lt;/a&gt; Quick Start&lt;/h2&gt;
