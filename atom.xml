@@ -36,7 +36,15 @@
         <id>http://akasakajelos.github.io/2025/04/22/about/</id>
         <title>About this blog</title>
         <link rel="alternate" href="http://akasakajelos.github.io/2025/04/22/about/"/>
-        <content type="html">&lt;p&gt;This consists of a best-efford (rather not best-efford, but neverrmind) to create a blogpost.&lt;/p&gt;
+        <content type="html">&lt;p&gt;This is an effort (well, not the best effort, but never mind) to create a blog post. I&#39;m focusing on the following aspects:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;CTF challenges&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;I will mostly post CTF challenges that I&#39;ve solved when I had time. I&#39;m primarily interested in crypto and misc challenges. I occasionally explore other types of challenges, but I still have a long way to go in order to do those well.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Cryptographic papers and a recap of the more theoretical aspects&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;I personally think this stuff is pretty interesting. Certainly, not everyone shares the same view as me, but the goal is to push myself to write summaries on these topics while also providing additional background knowledge on the papers. If you spot any mistakes in the posts, feel free to let me know (I don’t bite, by the way!).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;ACG recommendations (which are mostly unrelated to the previous topics)&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;That&#39;s only for fun.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Lastly&lt;/strong&gt;&lt;br /&gt;
+The goal is also to add comment features so that anyone can leave comments on the blog, point out mistakes, and more. The aim is to have fun and, hopefully, you&#39;ll find some interesting content on the blog.&lt;/p&gt;
 </content>
         <updated>2025-04-22T17:35:08.000Z</updated>
     </entry>
