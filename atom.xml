@@ -37,14 +37,16 @@
         <title>About this blog</title>
         <link rel="alternate" href="http://akasakajelos.github.io/2025/04/22/about/"/>
         <content type="html">&lt;p&gt;This is an effort (well, not the best effort, but never mind) to create a blog post. I&#39;m focusing on the following aspects:&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;CTF challenges&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;ctf-challenges&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#ctf-challenges&#34;&gt;#&lt;/a&gt; CTF challenges&lt;/h3&gt;
 &lt;p&gt;I will mostly post CTF challenges that I&#39;ve solved when I had time. I&#39;m primarily interested in crypto and misc challenges. I occasionally explore other types of challenges, but I still have a long way to go in order to do those well.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Cryptographic papers and a recap of the more theoretical aspects&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;cryptographic-papers-and-a-recap-of-the-more-theoretical-aspects&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#cryptographic-papers-and-a-recap-of-the-more-theoretical-aspects&#34;&gt;#&lt;/a&gt; Cryptographic papers and a recap of the more theoretical aspects&lt;/h3&gt;
 &lt;p&gt;I personally think this stuff is pretty interesting. Certainly, not everyone shares the same view as me, but the goal is to push myself to write summaries on these topics while also providing additional background knowledge on the papers. If you spot any mistakes in the posts, feel free to let me know (I don’t bite, by the way!).&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;ACG recommendations (which are mostly unrelated to the previous topics)&lt;/strong&gt;&lt;/p&gt;
+&lt;h3 id=&#34;acg-recommendations-which-are-mostly-unrelated-to-the-previous-topics&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#acg-recommendations-which-are-mostly-unrelated-to-the-previous-topics&#34;&gt;#&lt;/a&gt; ACG recommendations (which are mostly unrelated to the previous topics)&lt;/h3&gt;
 &lt;p&gt;That&#39;s only for fun.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Lastly&lt;/strong&gt;&lt;br /&gt;
-The goal is also to add comment features so that anyone can leave comments on the blog, point out mistakes, and more. The aim is to have fun and, hopefully, you&#39;ll find some interesting content on the blog.&lt;/p&gt;
+&lt;h3 id=&#34;others&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#others&#34;&gt;#&lt;/a&gt; Others&lt;/h3&gt;
+&lt;p&gt;There may be other topics that I don&#39;t remember now but will write about later. So, you might see some blog posts that don&#39;t fit into any of the categories mentioned above.&lt;/p&gt;
+&lt;h3 id=&#34;lastly&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#lastly&#34;&gt;#&lt;/a&gt; Lastly&lt;/h3&gt;
+&lt;p&gt;The goal is also to add comment features so that anyone can leave comments on the blog, point out mistakes, and more. The aim is to have fun and, hopefully, you&#39;ll find some interesting content on the blog.&lt;/p&gt;
 </content>
         <updated>2025-04-22T17:35:08.000Z</updated>
     </entry>
@@ -53,7 +55,7 @@ The goal is also to add comment features so that anyone can leave comments on th
         <title>Hello, World</title>
         <link rel="alternate" href="http://akasakajelos.github.io/2025/04/22/Hello-World-0/"/>
         <content type="html">&lt;h2 id=&#34;hello-webpage&#34;&gt;&lt;a class=&#34;anchor&#34; href=&#34;#hello-webpage&#34;&gt;#&lt;/a&gt; Hello Webpage&lt;/h2&gt;
-&lt;p&gt;First try in trying to create a webpage!&lt;/p&gt;
+&lt;p&gt;First try in trying to create a blog!&lt;/p&gt;
 </content>
         <updated>2025-04-22T16:42:07.000Z</updated>
     </entry>
