@@ -154,6 +154,7 @@ waline:
   pageSize: 10
   pageview: true
   login: "force"
+  turnstileKey: "0x4AAAAAACiSluy1-ytNVMa0"
 
 widgets:
   random_posts: true
