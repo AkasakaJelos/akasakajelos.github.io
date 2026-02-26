@@ -72,6 +72,33 @@ const js = `
     return null;
   }
 
+  function openLoginPopup() {
+    var w = 600, h = 600;
+    var left = (screen.width - w) / 2;
+    var top = (screen.height - h) / 2;
+    var popup = window.open(
+      serverURL + '/ui/login',
+      'waline-login',
+      'width=' + w + ',height=' + h + ',left=' + left + ',top=' + top + ',toolbar=no,menubar=no'
+    );
+
+    // Poll for login completion
+    var poll = setInterval(function() {
+      if (popup && popup.closed) {
+        clearInterval(poll);
+        // Check if user logged in via the Waline comment widget
+        render();
+        return;
+      }
+      var user = getUser();
+      if (user && user.display_name) {
+        clearInterval(poll);
+        if (popup) popup.close();
+        render();
+      }
+    }, 500);
+  }
+
   function render() {
     var existing = document.getElementById('site-login-container');
     if (existing) existing.remove();
@@ -109,8 +136,9 @@ const js = `
       });
     } else {
       container.innerHTML =
-        '<a class="site-login-btn" href="' + serverURL + '/ui/login" target="_blank">Login</a>';
+        '<button class="site-login-btn" id="site-login-btn">Login</button>';
       document.body.appendChild(container);
+      document.getElementById('site-login-btn').addEventListener('click', openLoginPopup);
     }
   }
 
