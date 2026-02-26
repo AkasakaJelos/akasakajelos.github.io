@@ -92,6 +92,7 @@ const js = `
     }
 
     var handler = function(event) {
+      if (event.origin !== serverURL) return;
       if (!event.data || typeof event.data !== 'object') return;
       if (event.data.type !== 'userInfo') return;
       if (event.data.data && event.data.data.token) {
@@ -104,6 +105,12 @@ const js = `
     window.addEventListener('message', handler);
   }
 
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
+  }
+
   function render() {
     var existing = document.getElementById('site-login-container');
     if (existing) existing.remove();
@@ -114,10 +121,12 @@ const js = `
 
     if (user) {
       var avatar = user.avatar || '';
-      var imgHtml = avatar ? '<img src="' + avatar + '" alt="">' : '';
+      var safeAvatar = escapeHtml(avatar);
+      var safeName = escapeHtml(user.display_name);
+      var imgHtml = avatar ? '<img src="' + safeAvatar + '" alt="">' : '';
       container.innerHTML =
         '<button class="site-login-btn" id="site-login-toggle">' +
-          imgHtml + user.display_name +
+          imgHtml + safeName +
         '</button>' +
         '<div class="site-login-dropdown" id="site-login-dropdown">' +
           '<a href="' + serverURL + '/ui/profile" target="_blank">Profile</a>' +
