@@ -1,19 +1,19 @@
 'use strict';
 
-hexo.extend.filter.register('after_init', function () {
-  const i18n = hexo.theme.i18n;
-  const lang = 'en';
-  const data = i18n.get(lang) || {};
+hexo.extend.filter.register('after_render:html', function (data) {
+  // Fix visible text labels
+  data = data.replace(/>Symbols count in article</g, '>Words: <');
+  data = data.replace(/>Reading time</g, '>Read time: <');
+  data = data.replace(/>words</g, '><');
 
-  data['symbols_count_time'] = Object.assign(data['symbols_count_time'] || {}, {
-    count: 'Words: ',
-    count_total: 'Total words: ',
-    time: 'Read time: ',
-    time_total: 'Total read time: ',
-    time_minutes: 'min',
-    word: '',
-    view: 'views'
-  });
+  // Fix "mins." → "min" (in both post meta and footer)
+  data = data.replace(/(\d+) mins\./g, '$1 min');
 
-  i18n.set(lang, data);
+  // Fix tooltip titles
+  data = data.replace(/title="Symbols count in article"/g, 'title="Word count"');
+  data = data.replace(/title="Reading time"/g, 'title="Read time"');
+  data = data.replace(/title="Symbols count total"/g, 'title="Total words"');
+  data = data.replace(/title="Reading time total"/g, 'title="Total read time"');
+
+  return data;
 });
