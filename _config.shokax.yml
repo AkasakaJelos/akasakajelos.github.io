@@ -153,6 +153,7 @@ waline:
   wordLimit: 0
   pageSize: 10
   pageview: true
+  login: "force"
 
 widgets:
   random_posts: true
