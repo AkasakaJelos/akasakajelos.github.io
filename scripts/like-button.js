@@ -82,8 +82,7 @@ const likeJs = `
     var el = document.getElementById('post-like-container');
     if (!el) return;
 
-    var path = el.getAttribute('data-path');
-    if (!path) return;
+    var path = window.location.pathname;
 
     var user = getUser();
     var hasLiked = getLiked().indexOf(path) !== -1;
@@ -161,26 +160,13 @@ const likeJs = `
 hexo.extend.injector.register('head_end', likeCss, 'post');
 hexo.extend.injector.register('body_end', likeJs, 'post');
 
-// Inject the like button container into post content
+// Inject the like button container before the comments section
 hexo.extend.filter.register('after_render:html', function (data) {
-  // Only add to post pages (they have id="comments")
   if (data.includes('id="comments"')) {
     data = data.replace(
       /(<div[^>]*id="comments")/,
-      '<div class="post-like" id="post-like-container" data-path="' + '" ></div>$1'
+      '<div class="post-like" id="post-like-container"></div>$1'
     );
-  }
-  return data;
-});
-
-// Set the correct path on the like button
-hexo.extend.filter.register('after_render:html', function (data) {
-  var pathMatch = data.match(/var defined_path\s*=\s*['"]([^'"]+)['"]/);
-  if (!pathMatch) {
-    pathMatch = data.match(/<link rel="canonical" href="https?:\/\/[^/]+(\/[^"]*)"\/>/);
-  }
-  if (pathMatch && data.includes('post-like-container')) {
-    data = data.replace('data-path="', 'data-path="' + pathMatch[1]);
   }
   return data;
 });
