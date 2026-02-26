@@ -138,9 +138,25 @@ sidebar:
   position: left
   avatar: avatar.jpg
 
+waline:
+  enable: true
+  serverURL: "https://comment-exk1qlg3v-akasakajelos-projects.vercel.app"
+  lang: "en"
+  locale: {}
+  emoji:
+  meta:
+    - nick
+    - mail
+    - link
+  requiredMeta:
+    - nick
+  wordLimit: 0
+  pageSize: 10
+  pageview: true
+
 widgets:
   random_posts: true
-  recent_comments: false
+  recent_comments: true
 
 footer:
   since: 2025
