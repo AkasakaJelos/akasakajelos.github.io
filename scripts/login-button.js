@@ -98,7 +98,7 @@ const js = `
         if (popup) popup.close();
         window.removeEventListener('message', handler);
         localStorage.setItem('WALINE_USER', JSON.stringify(event.data.data));
-        render();
+        location.reload();
       }
     };
     window.addEventListener('message', handler);
