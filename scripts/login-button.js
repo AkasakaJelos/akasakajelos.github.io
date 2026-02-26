@@ -67,36 +67,41 @@ const js = `
   function getUser() {
     try {
       var raw = localStorage.getItem('WALINE_USER');
-      if (raw) return JSON.parse(raw);
+      if (raw) {
+        var parsed = JSON.parse(raw);
+        if (parsed && parsed.display_name) return parsed;
+      }
     } catch(e) {}
     return null;
   }
 
   function openLoginPopup() {
-    var w = 600, h = 600;
+    var w = 450, h = 450;
     var left = (screen.width - w) / 2;
     var top = (screen.height - h) / 2;
+
     var popup = window.open(
-      serverURL + '/ui/login',
-      'waline-login',
-      'width=' + w + ',height=' + h + ',left=' + left + ',top=' + top + ',toolbar=no,menubar=no'
+      serverURL + '/ui/login?lng=en',
+      '_blank',
+      'width=' + w + ',height=' + h + ',left=' + left + ',top=' + top +
+      ',scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no'
     );
 
-    // Poll for login completion
-    var poll = setInterval(function() {
-      if (popup && popup.closed) {
-        clearInterval(poll);
-        // Check if user logged in via the Waline comment widget
-        render();
-        return;
-      }
-      var user = getUser();
-      if (user && user.display_name) {
-        clearInterval(poll);
+    if (popup) {
+      popup.postMessage({type: 'TOKEN', data: null}, '*');
+    }
+
+    var handler = function(event) {
+      if (!event.data || typeof event.data !== 'object') return;
+      if (event.data.type !== 'userInfo') return;
+      if (event.data.data && event.data.data.token) {
         if (popup) popup.close();
+        window.removeEventListener('message', handler);
+        localStorage.setItem('WALINE_USER', JSON.stringify(event.data.data));
         render();
       }
-    }, 500);
+    };
+    window.addEventListener('message', handler);
   }
 
   function render() {
@@ -107,7 +112,7 @@ const js = `
     container.id = 'site-login-container';
     var user = getUser();
 
-    if (user && user.display_name) {
+    if (user) {
       var avatar = user.avatar || '';
       var imgHtml = avatar ? '<img src="' + avatar + '" alt="">' : '';
       container.innerHTML =
