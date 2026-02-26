@@ -1,52 +1,58 @@
 'use strict';
 
+const turnstileCss = `
+<style>
+.wl-captcha-container {
+  transition: opacity 0.3s, max-height 0.3s;
+  overflow: hidden;
+}
+.wl-captcha-container.verified {
+  opacity: 0;
+  max-height: 0 !important;
+  pointer-events: none;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+</style>
+`;
+
 const turnstileJs = `
 <script>
 (function() {
-  function hideTurnstile() {
-    var widgets = document.querySelectorAll('.wl-captcha-container iframe, .wl-captcha-container > div');
-    widgets.forEach(function(w) {
-      var parent = w.closest('.wl-captcha-container') || w.parentElement;
-      if (parent && parent.textContent && parent.textContent.indexOf('Success') !== -1) {
-        parent.style.transition = 'opacity 0.3s';
-        parent.style.opacity = '0';
-        setTimeout(function() { parent.style.display = 'none'; }, 300);
+  function checkAndHide() {
+    // Turnstile adds a response input when verified
+    var inputs = document.querySelectorAll('input[name="cf-turnstile-response"]');
+    inputs.forEach(function(input) {
+      if (input.value && input.value.length > 0) {
+        var container = input.closest('.wl-captcha-container') || input.parentElement;
+        if (container && !container.classList.contains('verified')) {
+          container.classList.add('verified');
+        }
       }
     });
 
-    // Also check for standalone Turnstile response divs
-    document.querySelectorAll('[id^="cf-chl"]').forEach(function(el) {
-      var container = el.closest('div');
-      if (container && container.offsetHeight > 0) {
-        var text = container.textContent || '';
-        if (text.indexOf('Success') !== -1) {
-          container.style.transition = 'opacity 0.3s';
-          container.style.opacity = '0';
-          setTimeout(function() { container.style.display = 'none'; }, 300);
+    // Also check for any Turnstile iframes that have completed
+    var iframes = document.querySelectorAll('iframe[src*="turnstile"], iframe[src*="cloudflare"]');
+    iframes.forEach(function(iframe) {
+      var container = iframe.closest('.wl-captcha-container') || iframe.parentElement;
+      if (container) {
+        var responseInput = container.querySelector('input[type="hidden"]');
+        if (responseInput && responseInput.value && responseInput.value.length > 10) {
+          if (!container.classList.contains('verified')) {
+            container.classList.add('verified');
+          }
         }
       }
     });
   }
 
-  // Poll for success state
-  var observer = new MutationObserver(function() {
-    hideTurnstile();
+  setInterval(checkAndHide, 500);
+  document.addEventListener('pjax:complete', function() {
+    setTimeout(checkAndHide, 1000);
   });
-
-  function startObserving() {
-    var target = document.getElementById('comments') || document.body;
-    observer.observe(target, { childList: true, subtree: true, characterData: true });
-    // Also poll periodically as fallback
-    setInterval(hideTurnstile, 1000);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', startObserving);
-  } else {
-    startObserving();
-  }
 })();
 </script>
 `;
 
+hexo.extend.injector.register('head_end', turnstileCss, 'default');
 hexo.extend.injector.register('body_end', turnstileJs, 'default');
