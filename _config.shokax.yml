@@ -140,7 +140,7 @@ sidebar:
 
 waline:
   enable: true
-  serverURL: "https://comment-exk1qlg3v-akasakajelos-projects.vercel.app"
+  serverURL: "https://comment-akasakajelos-projects.vercel.app"
   lang: "en"
   locale: {}
   emoji:
