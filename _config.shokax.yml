@@ -150,7 +150,7 @@ waline:
     - link
   requiredMeta:
     - nick
-  wordLimit: false
+  wordLimit: 2000
   pageSize: 10
   pageview: true
   login: "force"
