@@ -24,7 +24,7 @@ homeConfig:
 
 modules:
   debug: false
-  player: true
+  player: false
   fireworks: true
   visibilityListener: true
   tabs: true
@@ -156,13 +156,6 @@ waline:
   login: "force"
   turnstileKey: "0x4AAAAAACiSluy1-ytNVMa0"
 
-playerAPI: "https://api.injahow.cn"
-
-audio:
-  - title: Japanese R&B
-    list:
-      - https://music.163.com/#/playlist?id=34723209
-
 widgets:
   random_posts: true
   recent_comments: true
@@ -195,6 +188,9 @@ tagcloud:
 creative_commons:
   license: by-nc-sa
   language: deed.en
+
+pagefind:
+  enable: true
 
 search:
   hits:
