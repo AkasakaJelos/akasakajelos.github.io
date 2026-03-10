@@ -189,9 +189,6 @@ creative_commons:
   license: by-nc-sa
   language: deed.en
 
-pagefind:
-  enable: true
-
 search:
   hits:
     per_page: 10
