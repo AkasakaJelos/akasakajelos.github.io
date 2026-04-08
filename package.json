@@ -24,7 +24,7 @@
     }
   },
   "devDependencies": {
-    "vite": ">=7.3.2"
+    "vite": ">=8.0.7"
   },
   "dependencies": {
     "hexo": "^7.3.0",
