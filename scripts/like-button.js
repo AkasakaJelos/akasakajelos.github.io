@@ -93,7 +93,8 @@ const likeJs = `
       .then(function(res) {
         var count = 0;
         if (res && res.data && res.data.length > 0) {
-          count = res.data[0].reaction0 || 0;
+          var raw = res.data[0].reaction0;
+          count = (typeof raw === 'number' && isFinite(raw)) ? Math.floor(raw) : 0;
         }
         render(el, path, count, user, hasLiked);
       })

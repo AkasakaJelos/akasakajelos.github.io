@@ -69,7 +69,13 @@ const js = `
       var raw = localStorage.getItem('WALINE_USER');
       if (raw) {
         var parsed = JSON.parse(raw);
-        if (parsed && parsed.display_name) return parsed;
+        if (parsed && parsed.display_name) {
+          if (parsed._expires && Date.now() > parsed._expires) {
+            localStorage.removeItem('WALINE_USER');
+            return null;
+          }
+          return parsed;
+        }
       }
     } catch(e) {}
     return null;
@@ -88,7 +94,7 @@ const js = `
     );
 
     if (popup) {
-      popup.postMessage({type: 'TOKEN', data: null}, '*');
+      popup.postMessage({type: 'TOKEN', data: null}, serverURL);
     }
 
     var handler = function(event) {
@@ -98,7 +104,13 @@ const js = `
       if (event.data.data && event.data.data.token) {
         if (popup) popup.close();
         window.removeEventListener('message', handler);
-        localStorage.setItem('WALINE_USER', JSON.stringify(event.data.data));
+        var userData = {
+          token: String(event.data.data.token),
+          display_name: String(event.data.data.display_name || ''),
+          avatar: String(event.data.data.avatar || ''),
+          _expires: Date.now() + (7 * 24 * 60 * 60 * 1000)
+        };
+        localStorage.setItem('WALINE_USER', JSON.stringify(userData));
         location.reload();
       }
     };
@@ -129,7 +141,7 @@ const js = `
           imgHtml + safeName +
         '</button>' +
         '<div class="site-login-dropdown" id="site-login-dropdown">' +
-          '<a href="' + serverURL + '/ui/profile" target="_blank">Profile</a>' +
+          '<a href="' + serverURL + '/ui/profile" target="_blank" rel="noopener noreferrer">Profile</a>' +
           '<a href="#" id="site-logout-btn">Logout</a>' +
         '</div>';
       document.body.appendChild(container);
