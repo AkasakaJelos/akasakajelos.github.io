@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1778427445607,
+  "lastScanned": 1779754993396,
   "projectRoot": "/Users/kwokwailui/Documents/WebDevelopment/akasakajelos.github.io",
   "techStack": {
     "languages": [
@@ -59,7 +59,7 @@
       "path": "public",
       "purpose": "Public files",
       "fileCount": 7,
-      "lastAccessed": 1778427443716,
+      "lastAccessed": 1779754993335,
       "keyFiles": [
         "atom.xml",
         "chunk-DZDDVF2N.js.LEGAL.txt",
@@ -72,7 +72,7 @@
       "path": "scaffolds",
       "purpose": null,
       "fileCount": 3,
-      "lastAccessed": 1778427443721,
+      "lastAccessed": 1779754993350,
       "keyFiles": [
         "draft.md",
         "page.md",
@@ -83,7 +83,7 @@
       "path": "scripts",
       "purpose": "Build/utility scripts",
       "fileCount": 6,
-      "lastAccessed": 1778427443739,
+      "lastAccessed": 1779754993357,
       "keyFiles": [
         "hide-comment-useragent.js",
         "language-override.js",
@@ -96,21 +96,21 @@
       "path": "source",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1778427443741,
+      "lastAccessed": 1779754993358,
       "keyFiles": []
     },
     "themes": {
       "path": "themes",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1778427443742,
+      "lastAccessed": 1779754993359,
       "keyFiles": []
     },
     "public/assets": {
       "path": "public/assets",
       "purpose": "Static assets",
       "fileCount": 8,
-      "lastAccessed": 1778427443745,
+      "lastAccessed": 1779754993360,
       "keyFiles": [
         "404.png",
         "algolia_logo.svg",
@@ -122,7 +122,7 @@
     {
       "path": "package.json",
       "accessCount": 2,
-      "lastAccessed": 1778427515351,
+      "lastAccessed": 1779755049176,
       "type": "file"
     }
   ],
