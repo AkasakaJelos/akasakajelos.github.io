@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1779754993396,
+  "lastScanned": 1786002524830,
   "projectRoot": "/Users/kwokwailui/Documents/WebDevelopment/akasakajelos.github.io",
   "techStack": {
     "languages": [
@@ -16,7 +16,7 @@
     "frameworks": [
       {
         "name": "vite",
-        "version": "8.0.8",
+        "version": "8.1.0",
         "category": "build"
       }
     ],
@@ -59,20 +59,20 @@
       "path": "public",
       "purpose": "Public files",
       "fileCount": 7,
-      "lastAccessed": 1779754993335,
+      "lastAccessed": 1786002524779,
       "keyFiles": [
         "atom.xml",
-        "chunk-DZDDVF2N.js.LEGAL.txt",
+        "chunk-6TLU4QBT.js.LEGAL.txt",
         "feed.json",
         "index.html",
-        "post-QLYUTQNT.js.LEGAL.txt"
+        "post-KGCQ6NNZ.js.LEGAL.txt"
       ]
     },
     "scaffolds": {
       "path": "scaffolds",
       "purpose": null,
       "fileCount": 3,
-      "lastAccessed": 1779754993350,
+      "lastAccessed": 1786002524783,
       "keyFiles": [
         "draft.md",
         "page.md",
@@ -83,7 +83,7 @@
       "path": "scripts",
       "purpose": "Build/utility scripts",
       "fileCount": 6,
-      "lastAccessed": 1779754993357,
+      "lastAccessed": 1786002524792,
       "keyFiles": [
         "hide-comment-useragent.js",
         "language-override.js",
@@ -96,21 +96,21 @@
       "path": "source",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1779754993358,
+      "lastAccessed": 1786002524792,
       "keyFiles": []
     },
     "themes": {
       "path": "themes",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1779754993359,
+      "lastAccessed": 1786002524793,
       "keyFiles": []
     },
     "public/assets": {
       "path": "public/assets",
       "purpose": "Static assets",
       "fileCount": 8,
-      "lastAccessed": 1779754993360,
+      "lastAccessed": 1786002524795,
       "keyFiles": [
         "404.png",
         "algolia_logo.svg",
@@ -122,7 +122,7 @@
     {
       "path": "package.json",
       "accessCount": 2,
-      "lastAccessed": 1779755049176,
+      "lastAccessed": 1786002746572,
       "type": "file"
     }
   ],
