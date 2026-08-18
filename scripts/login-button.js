@@ -117,10 +117,16 @@ const js = `
     window.addEventListener('message', handler);
   }
 
-  function escapeHtml(str) {
-    var div = document.createElement('div');
-    div.appendChild(document.createTextNode(str));
-    return div.innerHTML;
+  // Only http(s) and inline image data URLs may reach an <img src>.
+  // Rejects javascript:, vbscript:, and other scheme-based payloads.
+  function safeImageUrl(raw) {
+    if (!raw) return '';
+    try {
+      var parsed = new URL(raw, location.href);
+      if (parsed.protocol === 'https:' || parsed.protocol === 'http:') return parsed.href;
+      if (parsed.protocol === 'data:' && /^data:image\//i.test(parsed.href)) return parsed.href;
+    } catch (e) {}
+    return '';
   }
 
   function render() {
@@ -132,18 +138,41 @@ const js = `
     var user = getUser();
 
     if (user) {
-      var avatar = user.avatar || '';
-      var safeAvatar = escapeHtml(avatar);
-      var safeName = escapeHtml(user.display_name);
-      var imgHtml = avatar ? '<img src="' + safeAvatar + '" alt="">' : '';
-      container.innerHTML =
-        '<button class="site-login-btn" id="site-login-toggle">' +
-          imgHtml + safeName +
-        '</button>' +
-        '<div class="site-login-dropdown" id="site-login-dropdown">' +
-          '<a href="' + serverURL + '/ui/profile" target="_blank" rel="noopener noreferrer">Profile</a>' +
-          '<a href="#" id="site-logout-btn">Logout</a>' +
-        '</div>';
+      // Built with DOM APIs rather than innerHTML: display_name and avatar are
+      // attacker-influencable, and string interpolation into an attribute lets a
+      // quote in the value break out and inject event handlers.
+      var toggle = document.createElement('button');
+      toggle.className = 'site-login-btn';
+      toggle.id = 'site-login-toggle';
+
+      var avatarUrl = safeImageUrl(user.avatar);
+      if (avatarUrl) {
+        var img = document.createElement('img');
+        img.setAttribute('src', avatarUrl);
+        img.setAttribute('alt', '');
+        toggle.appendChild(img);
+      }
+      toggle.appendChild(document.createTextNode(user.display_name));
+
+      var dropdown = document.createElement('div');
+      dropdown.className = 'site-login-dropdown';
+      dropdown.id = 'site-login-dropdown';
+
+      var profile = document.createElement('a');
+      profile.setAttribute('href', serverURL + '/ui/profile');
+      profile.setAttribute('target', '_blank');
+      profile.setAttribute('rel', 'noopener noreferrer');
+      profile.appendChild(document.createTextNode('Profile'));
+
+      var logout = document.createElement('a');
+      logout.setAttribute('href', '#');
+      logout.id = 'site-logout-btn';
+      logout.appendChild(document.createTextNode('Logout'));
+
+      dropdown.appendChild(profile);
+      dropdown.appendChild(logout);
+      container.appendChild(toggle);
+      container.appendChild(dropdown);
       document.body.appendChild(container);
 
       document.getElementById('site-login-toggle').addEventListener('click', function(e) {
