@@ -7,3 +7,14 @@ public/
 .deploy*/
 _multiconfig.yml
 source/_posts/zkp-series.md
+
+# Local tooling state — contains absolute home-directory paths, session
+# transcript locations and a listing of the local skills directory, none of
+# which should be published in a public repo.
+.omc/state/
+.omc/sessions/
+.claude/logs/
+.env
+.env.*
+*.pem
+*.key

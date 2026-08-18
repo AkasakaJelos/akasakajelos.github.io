@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1786002524830,
+  "lastScanned": 1787077114417,
   "projectRoot": "/Users/kwokwailui/Documents/WebDevelopment/akasakajelos.github.io",
   "techStack": {
     "languages": [
@@ -16,7 +16,7 @@
     "frameworks": [
       {
         "name": "vite",
-        "version": "8.1.0",
+        "version": "8.1.1",
         "category": "build"
       }
     ],
@@ -59,20 +59,20 @@
       "path": "public",
       "purpose": "Public files",
       "fileCount": 7,
-      "lastAccessed": 1786002524779,
+      "lastAccessed": 1787077114363,
       "keyFiles": [
         "atom.xml",
         "chunk-6TLU4QBT.js.LEGAL.txt",
         "feed.json",
         "index.html",
-        "post-KGCQ6NNZ.js.LEGAL.txt"
+        "post-BV2TIMQ2.js.LEGAL.txt"
       ]
     },
     "scaffolds": {
       "path": "scaffolds",
       "purpose": null,
       "fileCount": 3,
-      "lastAccessed": 1786002524783,
+      "lastAccessed": 1787077114374,
       "keyFiles": [
         "draft.md",
         "page.md",
@@ -83,7 +83,7 @@
       "path": "scripts",
       "purpose": "Build/utility scripts",
       "fileCount": 6,
-      "lastAccessed": 1786002524792,
+      "lastAccessed": 1787077114375,
       "keyFiles": [
         "hide-comment-useragent.js",
         "language-override.js",
@@ -96,21 +96,21 @@
       "path": "source",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1786002524792,
+      "lastAccessed": 1787077114376,
       "keyFiles": []
     },
     "themes": {
       "path": "themes",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1786002524793,
+      "lastAccessed": 1787077114376,
       "keyFiles": []
     },
     "public/assets": {
       "path": "public/assets",
       "purpose": "Static assets",
       "fileCount": 8,
-      "lastAccessed": 1786002524795,
+      "lastAccessed": 1787077114378,
       "keyFiles": [
         "404.png",
         "algolia_logo.svg",
@@ -120,9 +120,57 @@
   },
   "hotPaths": [
     {
+      "path": "scripts/login-button.js",
+      "accessCount": 3,
+      "lastAccessed": 1787077372682,
+      "type": "file"
+    },
+    {
+      "path": "scripts/security-headers.js",
+      "accessCount": 2,
+      "lastAccessed": 1787077400701,
+      "type": "file"
+    },
+    {
       "path": "package.json",
       "accessCount": 2,
-      "lastAccessed": 1786002746572,
+      "lastAccessed": 1787077485219,
+      "type": "file"
+    },
+    {
+      "path": "scripts/like-button.js",
+      "accessCount": 1,
+      "lastAccessed": 1787077156140,
+      "type": "file"
+    },
+    {
+      "path": "scripts/turnstile-autohide.js",
+      "accessCount": 1,
+      "lastAccessed": 1787077157149,
+      "type": "file"
+    },
+    {
+      "path": "scripts/hide-comment-useragent.js",
+      "accessCount": 1,
+      "lastAccessed": 1787077157889,
+      "type": "file"
+    },
+    {
+      "path": "scripts/language-override.js",
+      "accessCount": 1,
+      "lastAccessed": 1787077158179,
+      "type": "file"
+    },
+    {
+      "path": "_config.yml",
+      "accessCount": 1,
+      "lastAccessed": 1787077162339,
+      "type": "file"
+    },
+    {
+      "path": "_config.shokax.yml",
+      "accessCount": 1,
+      "lastAccessed": 1787077174064,
       "type": "file"
     }
   ],
