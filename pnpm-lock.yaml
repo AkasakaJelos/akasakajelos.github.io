@@ -7,7 +7,7 @@ settings:
 overrides:
   minimatch: '>=10.2.3'
   markdown-it@>=13.0.0 <14.2.0: ^14.2.0
-  js-yaml@>=4.0.0 <4.3.1: ^4.3.1
+  js-yaml@>=4.0.0 <4.3.2: ^4.3.2
   nanoid@<3.3.18: ^3.3.18
   picomatch@<2.3.2: 2.3.2
   picomatch@>=3.0.0 <3.0.2: 3.0.2
@@ -19,12 +19,12 @@ overrides:
   vite@>=8.0.0 <8.0.16: '>=8.0.16'
   esbuild@<0.28.1: '>=0.28.1'
   js-cookie@<=3.0.5: '>=3.0.7'
-  qs@>=6.11.1 <=6.15.1: '>=6.15.2'
+  qs@>=6.11.1 <6.16.0: '>=6.16.0'
   brace-expansion: ^5.0.9
-  fast-uri: ^3.1.5
+  fast-uri: ^3.1.7
   linkify-it: ^5.0.2
   postcss: ^8.5.23
-  morgan: ^1.11.0
+  morgan: ^1.12.1
 
 importers:
 
@@ -1407,8 +1407,8 @@ packages:
   fast-equals@3.0.3:
     resolution: {integrity: sha512-NCe8qxnZFARSHGztGMZOO/PC1qa5MIFB5Hp66WdzbCRAz8U8US3bx1UTgLS49efBQPcUtO9gf5oVEY8o7y/7Kg==}
 
-  fast-uri@3.1.5:
-    resolution: {integrity: sha512-gHwA1O9LDIcKunMKhObS/HimwtehO1nPUECKAu5TpKgaO19fcWEl4bliWe1jWxVFvIXztJjjQ4L8XQ1EU9f7Jw==}
+  fast-uri@3.1.7:
+    resolution: {integrity: sha512-dOvZVzjdZdz7phd9v6jCbwxrBW3fK6n8Rc0CtdmM4bumzMnxywBYhuph6J819RRw/ku+rLbelwfMunktuzVVHg==}
 
   fdir@6.5.0:
     resolution: {integrity: sha512-tIbYtZbucOs0BRGqPJkshJUYdL+SDH7dVM8gjy+ERp3WAUjLEFJE+02kanyHtwjWOnwrKYBiwAmM0p4kLJAnXg==}
@@ -1744,10 +1744,10 @@ packages:
   js-yaml-js-types@1.0.1:
     resolution: {integrity: sha512-5tpfyORs8OQ43alNERbWfYRCtWgykvzYgY46fUhrQi2+kS7N0NuuFYLZ/IrfmVm5muLTndeMublgraXiFRjEPw==}
     peerDependencies:
-      js-yaml: ^4.3.1
+      js-yaml: ^4.3.2
 
-  js-yaml@4.3.1:
-    resolution: {integrity: sha512-CY6crGq313MX8GkwvB7tzgp99vjQxY1++5y10/BKN/GUfHqWaOGQMNZkBvqSzsZKWk/ijwHlWzzkLulsGHhjWQ==}
+  js-yaml@4.3.2:
+    resolution: {integrity: sha512-SFNOvSJ+Dgf/9An904Yx+CgSlIPCkIpao4qo51lpee25TIRejdH3rhR4EZMGoNx3/TP3O+wzWuiTFl4sqbltzA==}
     hasBin: true
 
   jsesc@3.1.0:
@@ -2024,8 +2024,8 @@ packages:
   moment@2.30.1:
     resolution: {integrity: sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==}
 
-  morgan@1.11.0:
-    resolution: {integrity: sha512-zSkVu3t18r39pw4ixfBKvfZi3y2UOqr7d4WYwcj3m8nXpEQK4rPO6GLzs/CExoRgmX3y9EjmmcXqv6jq0SK46g==}
+  morgan@1.12.1:
+    resolution: {integrity: sha512-tljKC0ex20AjO58Ob/eZ53JloycbVswbVNCHx6V6VLGzqt/w8dIynVGL0G8qVjNKwiA7sYSogCrN6QtJ82IV+g==}
     engines: {node: '>= 0.8.0'}
 
   mouse-firework@0.1.1:
@@ -2274,8 +2274,8 @@ packages:
     resolution: {integrity: sha512-uxFIHU0YlHYhDQtV4R9J6a52SLx28BCjT+4ieh7IGbgwVJWO+km431c4yRlREUAsAmt/uMjQUyQHNEPf0M39CA==}
     engines: {node: '>=6'}
 
-  qs@6.15.2:
-    resolution: {integrity: sha512-Rzq0KEyX/w/tEybncDgdkZrJgVUsUMk3xjh3t5bv3S1HTAtg+uOYt72+ZfwiQwKdysThkTBdL/rTi6HDmX9Ddw==}
+  qs@6.16.0:
+    resolution: {integrity: sha512-h6fhOIaRrID2CbEY2fqs+7t+UXZo+MLAnU5gRIq85uFtdiUPCdsApMlHhXogKVM4HM2DVbIjGNTTYH2OcmP1vA==}
     engines: {node: '>=0.6'}
 
   quansync@0.2.11:
@@ -2406,8 +2406,8 @@ packages:
   shokax-uikit@0.0.5:
     resolution: {integrity: sha512-iPDtqlOwCVeFxzAvCrqZviMuDRZRdwwCtMn3ckN2HHVPCN7M/gPp3P9ZcYBFIfSSfarFpnxTtlAZPPWcbv2Qgw==}
 
-  side-channel-list@1.0.0:
-    resolution: {integrity: sha512-FCLHtRD/gnpCiCHEiJLOwdmFP+wzCmDEkc9y7NsYxeF4u7Btsn1ZuwgwJGxImImHicJArLP4R0yX4c2KCrMrTA==}
+  side-channel-list@1.0.1:
+    resolution: {integrity: sha512-mjn/0bi/oUURjc5Xl7IaWi/OJJJumuoJFQJfDDyO46+hBWsfaVM65TBHq2eoZBhzl9EchxOijpkbRC8SVBQU0w==}
     engines: {node: '>= 0.4'}
 
   side-channel-map@1.0.1:
@@ -2418,8 +2418,8 @@ packages:
     resolution: {integrity: sha512-WPS/HvHQTYnHisLo9McqBHOJk2FkHO/tlpvldyrnem4aeQp4hai3gythswg6p01oSoTl58rcpiFAjF2br2Ak2A==}
     engines: {node: '>= 0.4'}
 
-  side-channel@1.1.0:
-    resolution: {integrity: sha512-ZX99e6tRweoUXqR+VBrslhda51Nh5MTQwou5tnUDgbtyM0dBgmhEDtWGP/xbKn6hqfPRHujUNwz5fy/wbbhnpw==}
+  side-channel@1.1.1:
+    resolution: {integrity: sha512-6x6dK6zJdpTzF4sQeNYxwtvBzf6Eg4GtlesS94HOvTudUeyK2WXAaIfmDgsyslYrRBeFIlsi54AYsFGUuhmvrQ==}
     engines: {node: '>= 0.4'}
 
   signal-exit@4.1.0:
@@ -3767,7 +3767,7 @@ snapshots:
   ajv@8.18.0:
     dependencies:
       fast-deep-equal: 3.1.3
-      fast-uri: 3.1.5
+      fast-uri: 3.1.7
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
 
@@ -4144,7 +4144,7 @@ snapshots:
 
   fast-equals@3.0.3: {}
 
-  fast-uri@3.1.5: {}
+  fast-uri@3.1.7: {}
 
   fdir@6.5.0(picomatch@4.0.4):
     optionalDependencies:
@@ -4306,7 +4306,7 @@ snapshots:
 
   hexo-front-matter@4.2.1:
     dependencies:
-      js-yaml: 4.3.1
+      js-yaml: 4.3.2
 
   hexo-fs@4.1.3:
     dependencies:
@@ -4398,7 +4398,7 @@ snapshots:
       compression: 1.8.1
       connect: 3.7.0
       mime: 3.0.0
-      morgan: 1.11.0
+      morgan: 1.12.1
       open: 8.4.2
       picocolors: 1.1.1
       serve-static: 1.16.3
@@ -4423,7 +4423,7 @@ snapshots:
       hexo-renderer-pug: 3.0.0
       hexo-util: 3.3.0
       instantsearch.js: 4.90.0(algoliasearch@5.34.1)
-      js-yaml: 4.3.1
+      js-yaml: 4.3.2
       katex: 0.16.33
       mouse-firework: 0.1.1
       nyx-player: 0.1.1(rolldown@1.1.3)(rollup@4.59.0)(typescript@5.9.3)(vite@8.1.1(esbuild@0.28.1)(jiti@2.6.1)(stylus@0.62.0))
@@ -4467,8 +4467,8 @@ snapshots:
       hexo-i18n: 2.0.0
       hexo-log: 4.1.0
       hexo-util: 3.3.0
-      js-yaml: 4.3.1
-      js-yaml-js-types: 1.0.1(js-yaml@4.3.1)
+      js-yaml: 4.3.2
+      js-yaml-js-types: 1.0.1(js-yaml@4.3.2)
       micromatch: 4.0.8
       moize: 6.1.7
       moment: 2.30.1
@@ -4547,7 +4547,7 @@ snapshots:
       htm: 3.1.1
       instantsearch-ui-components: 0.20.0(react@19.2.4)
       preact: 10.28.4
-      qs: 6.15.2
+      qs: 6.16.0
       react: 19.2.4
       search-insights: 2.17.3
       zod: 4.3.6
@@ -4625,12 +4625,12 @@ snapshots:
 
   js-tokens@4.0.0: {}
 
-  js-yaml-js-types@1.0.1(js-yaml@4.3.1):
+  js-yaml-js-types@1.0.1(js-yaml@4.3.2):
     dependencies:
       esprima: 4.0.1
-      js-yaml: 4.3.1
+      js-yaml: 4.3.2
 
-  js-yaml@4.3.1:
+  js-yaml@4.3.2:
     dependencies:
       argparse: 2.0.1
 
@@ -4869,7 +4869,7 @@ snapshots:
 
   moment@2.30.1: {}
 
-  morgan@1.11.0:
+  morgan@1.12.1:
     dependencies:
       basic-auth: 2.0.1
       debug: 2.6.9
@@ -5141,9 +5141,10 @@ snapshots:
 
   punycode.js@2.3.1: {}
 
-  qs@6.15.2:
+  qs@6.16.0:
     dependencies:
-      side-channel: 1.1.0
+      es-define-property: 1.0.1
+      side-channel: 1.1.1
 
   quansync@0.2.11: {}
 
@@ -5329,7 +5330,7 @@ snapshots:
       - typescript
       - vite
 
-  side-channel-list@1.0.0:
+  side-channel-list@1.0.1:
     dependencies:
       es-errors: 1.3.0
       object-inspect: 1.13.4
@@ -5349,11 +5350,11 @@ snapshots:
       object-inspect: 1.13.4
       side-channel-map: 1.0.1
 
-  side-channel@1.1.0:
+  side-channel@1.1.1:
     dependencies:
       es-errors: 1.3.0
       object-inspect: 1.13.4
-      side-channel-list: 1.0.0
+      side-channel-list: 1.0.1
       side-channel-map: 1.0.1
       side-channel-weakmap: 1.0.2
 

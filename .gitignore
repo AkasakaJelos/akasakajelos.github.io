@@ -18,3 +18,4 @@ source/_posts/zkp-series.md
 .env.*
 *.pem
 *.key
+.omc/project-memory.json
