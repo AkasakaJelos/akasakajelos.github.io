@@ -1,6 +1,7 @@
 ---
 title: CISSP Learning Journy
 date: 2025-07-03 12:00:00
+published: false
 categories:
   - General
 tags:
