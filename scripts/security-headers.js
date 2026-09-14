@@ -52,7 +52,11 @@ function buildCSP (scriptHashes) {
     "style-src 'self' 'unsafe-inline' https://s4.zstatic.net https://at.alicdn.com https://fonts.googleapis.com",
     "font-src 'self' https://fonts.gstatic.com https://at.alicdn.com https://s4.zstatic.net",
     "img-src 'self' data: https:",
-    "connect-src 'self' https://comment-akasakajelos-projects.vercel.app https://fonts.googleapis.com",
+    // unpkg.com: Waline's emoji picker fetches its emoji manifests
+    // (@waline/emojis/*/info.json) from unpkg at runtime. Without it the picker
+    // silently fails with a connect-src violation. unpkg is a read-only package
+    // CDN, so it is not a usable exfiltration sink.
+    "connect-src 'self' https://comment-akasakajelos-projects.vercel.app https://fonts.googleapis.com https://unpkg.com",
     'frame-src https://challenges.cloudflare.com',
     "frame-ancestors 'self'",
     // form-action is not covered by default-src, so without it a form injected into a
