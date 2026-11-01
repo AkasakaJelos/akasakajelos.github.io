@@ -73,7 +73,11 @@ configuration, so no trailing-slash divergence is introduced.
 ### URLs that must resolve identically after migration
 
 - `/2025/04/25/hello-world/`
-- `/2026/03/10/zkp-series/`
+
+`/2026/03/10/zkp-series/` is **not** live: the post is gitignored (see below), CI
+builds from a clean checkout, and the URL returns 404 (checked 2026-11-01). It
+only exists in local builds. If the post is ever published, the route above will
+give it that URL, but there is no existing URL or Waline data to preserve.
 
 ## Content migration
 
@@ -95,6 +99,11 @@ currently-hidden posts (`casa_summer_1`, `cissp_summary1`) must come across as
 
 `zkp-series.md` is untracked and gitignored; it stays that way.
 
+Both drafts currently carry the title `CISSP Learning Journy`. For
+`casa_summer_1.md` this is a copy-paste error (the post is about the CASA Summer
+School), and "Journy" is a typo in both. Fix the titles before they become
+non-drafts.
+
 ### Cover images
 
 The 30 images in `source/covers/` are a ShokaX **random-cover pool** declared in
@@ -102,14 +111,25 @@ The 30 images in `source/covers/` are a ShokaX **random-cover pool** declared in
 per post at render time. Fuwari has no pool concept — each post takes a single
 `image:` in its frontmatter.
 
-Resolution: assign one cover per post explicitly, chosen from the existing pool,
-and set it as that post's `image:`. The images move to `public/covers/` so the
-existing `/covers/<name>.jpg` paths keep working. The unused remainder stays in
-the repository as a library for future posts. `images.yml` is deleted — it has
-no meaning outside ShokaX.
+Observed ShokaX behaviour: covers are drawn from the pool at build time and are
+not stable per post — the same post shows different covers on different pages
+(the home page alone renders 7 distinct covers).
 
-This is a deliberate behaviour change: covers become stable per post instead of
-varying per render.
+Resolution: port the pool rather than hand-assigning covers. The 30 images move
+to `public/covers/`, keeping the existing `/covers/<name>.jpg` paths. The pool
+list moves from `source/_data/images.yml` to a typed module
+(`src/constants/covers.ts`), and a `resolveCover(entry)` helper returns:
+
+1. `entry.data.image` when the post declares one — an explicit cover always wins;
+2. otherwise a cover selected from the pool by hashing the post slug.
+
+Selection is **deterministic by slug** rather than randomised. Every post gets
+pool art automatically with no manual assignment, new posts included, but a given
+post keeps the same cover across every page and across rebuilds. This deviates
+from ShokaX, where covers churned per page and per deploy; stable output keeps
+builds reproducible and diffable.
+
+`images.yml` is deleted once `covers.ts` replaces it.
 
 ## Comments and client integrations
 
@@ -125,10 +145,25 @@ Astro components:
 | `language-override.js` | drop — Fuwari has real i18n |
 | `security-headers.js` | Astro integration (see below) |
 
-**swup re-mounting is mandatory.** Fuwari uses swup for client-side navigation,
-the same hazard the current scripts handle via `pjax:complete`. Waline, the like
-button and the login button must re-initialise on swup's content-replace event
-or they will silently stop working after the first in-site navigation.
+**swup re-mounting is mandatory.** Fuwari uses swup for client-side navigation.
+This is a **new** hazard, not one the current site already handles: ShokaX 0.5.4
+ships no pjax (its `.pjax` classes are vestigial markup, and no built bundle
+contains a navigation library or dispatches `pjax:complete`), so every in-site
+link is a full page load and the `pjax:complete` listeners in `scripts/` are dead
+code. Do not use them as a reference for what works. Waline, the like button and
+the login button must re-initialise on swup's content-replace event or they will
+silently stop working after the first in-site navigation.
+
+**Pass Waline's `login` option explicitly.** `_config.shokax.yml` sets
+`login: "force"`, but the ShokaX `init()` call never forwards it, so Waline runs
+with its `"enable"` default and allows anonymous comments. The Fuwari component
+should pass `login: 'force'` itself. Client-side options can be bypassed by
+calling the API directly, so the real enforcement is the server's `LOGIN=force`
+environment variable on the Vercel deployment.
+
+Hexo's config merge takes the union of arrays, which is why the site ships
+`requiredMeta: ["nick", "mail"]` although `_config.shokax.yml` lists only
+`nick`. Decide the intended value explicitly rather than porting the merged one.
 
 The `safeImageUrl()` avatar-scheme guard and the DOM-API-based rendering in
 `login-button.js` (rather than `innerHTML`) are security-relevant and must be
@@ -146,12 +181,17 @@ Two additions this stack requires:
 - **`'wasm-unsafe-eval'` in `script-src`** — pagefind is WebAssembly and will
   not run without it. This is narrower than `'unsafe-eval'` and does not permit
   string-to-code evaluation.
-- **`https://unpkg.com` in `connect-src`** — carried over from the Waline emoji
-  manifest fix (commit `6ef24b9`).
+- **`https://unpkg.com` and `https://api.giphy.com` in `connect-src`** — carried
+  over from the Hexo policy. unpkg serves Waline's emoji manifests (commit
+  `6ef24b9`); Giphy backs Waline's default GIF search, which is active whenever no
+  `search` option is passed. If the Fuwari component sets `search: false`, drop
+  the Giphy entry.
 
-The existing verification script is reused against `dist/`: every page carries a
-CSP, every inline script's SHA-256 appears in its page's `script-src`, no page
-contains `'unsafe-inline'`, and no inline event handlers remain.
+`tools/verify-csp.js` is reused against `dist/` (`node tools/verify-csp.js dist`):
+every page carries exactly one CSP inside `<head>`, every inline script's SHA-256
+appears in its page's `script-src`, no `script-src` contains `'unsafe-inline'`,
+and no inline event handlers remain. It already runs as a deploy gate in
+`.github/workflows/deploy.yml`; the switch commit only changes its argument.
 
 Whether Fuwari emits inline scripts that resist hashing (e.g. swup or theme
 bootstrapping with build-varying content) is **unverified** and is the main
@@ -161,9 +201,9 @@ into files served from `'self'`.
 ## Verification
 
 1. `pnpm build` completes with no errors.
-2. Both preserved URLs exist in `dist/` at the exact paths listed above.
+2. The preserved URL exists in `dist/` at the exact path listed above.
 3. Neither draft post appears anywhere in `dist/`.
-4. CSP verification script passes on `dist/`.
+4. `node tools/verify-csp.js dist` passes.
 5. `pnpm audit` reports no known vulnerabilities.
 6. Browser check: page renders, search works, comments mount, and all three
    still work *after* a swup navigation.
@@ -171,7 +211,7 @@ into files served from `'self'`.
 ## Known blockers and risks
 
 - **The Waline backend returns HTTP 500** (`FUNCTION_INVOCATION_FAILED`) on all
-  endpoints, including root. Comment integration can be verified structurally
+  endpoints, including root (still the case on 2026-11-01). Comment integration can be verified structurally
   but not end-to-end until that Vercel deployment is fixed. This is independent
   of the migration.
 - Fuwari inline scripts may resist hashing (above).
