@@ -29,6 +29,15 @@ README*, logo.png, _frontmatter.json
 - Known upstream peer warnings, unchanged: @tailwindcss/typography's
   "insiders" tailwindcss range, ec-lang-logo wanting @expressive-code/core ^0.41.
 
+- Disabled featurePages (all nine), music player, Live2D mascot (pio) and
+  share buttons; removed the announcement and music widgets from the sidebar;
+  deleted the nine feature page routes and albums/[id]; navigation is now
+  Home, Archive, About, GitHub.
+- Removed oddmisc (Umami analytics) from astro.config.mjs and dependencies.
+  Profile.astro and PostMeta.astro still contain its hidden fallback markup
+  and scripts, which bail out when window.oddmisc is undefined; left as-is to
+  keep the upstream diff small.
+
 ## After Task 2
 
 - pnpm audit: 0 advisories reported (registry metadata counts only the three
