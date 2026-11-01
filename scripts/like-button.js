@@ -58,7 +58,15 @@ const likeJs = `
       var raw = localStorage.getItem('WALINE_USER');
       if (raw) {
         var parsed = JSON.parse(raw);
-        if (parsed && parsed.display_name) return parsed;
+        if (parsed && parsed.display_name) {
+          // Same expiry rule as login-button.js, so an expired session shows
+          // "Login" there and is not treated as logged in here.
+          if (parsed._expires && Date.now() > parsed._expires) {
+            localStorage.removeItem('WALINE_USER');
+            return null;
+          }
+          return parsed;
+        }
       }
     } catch(e) {}
     return null;
@@ -67,7 +75,12 @@ const likeJs = `
   function getLiked() {
     try {
       var raw = localStorage.getItem('WALINE_LIKES');
-      if (raw) return JSON.parse(raw);
+      if (raw) {
+        // Callers use indexOf/push outside any try, so anything but an array
+        // would throw and leave the button unrendered.
+        var parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) return parsed;
+      }
     } catch(e) {}
     return [];
   }
@@ -75,7 +88,9 @@ const likeJs = `
   function setLiked(path) {
     var liked = getLiked();
     if (liked.indexOf(path) === -1) liked.push(path);
-    localStorage.setItem('WALINE_LIKES', JSON.stringify(liked));
+    try {
+      localStorage.setItem('WALINE_LIKES', JSON.stringify(liked));
+    } catch(e) {}
   }
 
   function init() {
@@ -126,8 +141,15 @@ const likeJs = `
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ path: path, type: 'reaction0', action: 'inc' })
         })
-        .then(function(r) { return r.json(); })
-        .then(function() {
+        .then(function(r) {
+          // fetch() resolves on HTTP errors; without this a 4xx/5xx JSON body
+          // would be counted as a successful like.
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        })
+        .then(function(res) {
+          // Waline also reports application errors as a non-zero errno.
+          if (res && res.errno) throw new Error(res.errmsg || 'errno ' + res.errno);
           setLiked(path);
           count++;
           btn.className = 'post-like-btn liked';
