@@ -261,10 +261,12 @@ git commit -m "fix(site): upgrade Astro to 7.4 and clear pnpm audit" -m "Astro 7
 - [ ] **Step 1: Write the failing check**
 
 ```bash
-pnpm --dir site build >/dev/null && for p in anime diary friends projects skills timeline albums devices ai-tools; do [ -e site/dist/$p ] && echo "PRESENT $p"; done; grep -rl "oddmisc\|umami" site/dist --include='*.html' | head -3
+pnpm --dir site build >/dev/null && for p in anime diary friends projects skills timeline albums devices ai-tools; do [ -e site/dist/$p ] && echo "PRESENT $p"; done; [ -e site/node_modules/oddmisc ] && echo "PRESENT oddmisc package"
 ```
 
-Expected now: nine `PRESENT` lines and at least one HTML file mentioning `oddmisc` or `umami`. After this task, both must be empty.
+Expected now: nine `PRESENT` lines plus `PRESENT oddmisc package`. After this task, all ten must be gone.
+
+Do not test for Umami by grepping `dist/` for the words `oddmisc` or `umami`. `Profile.astro` and `PostMeta.astro` keep a hidden `umami-stats-container` and scripts that bail out when `window.oddmisc` is undefined, so those words remain by design. Step 8 checks what matters instead: nothing defines `window.oddmisc`, and nothing references an Umami host.
 
 - [ ] **Step 2: Turn off feature pages**
 
@@ -339,11 +341,12 @@ pnpm --dir site remove oddmisc
 
 ```bash
 pnpm --dir site build
-for p in anime diary friends projects skills timeline albums devices ai-tools; do [ -e site/dist/$p ] && echo "PRESENT $p"; done; grep -rl "oddmisc\|umami" site/dist --include='*.html' | head -3; echo "check done"
+for p in anime diary friends projects skills timeline albums devices ai-tools; do [ -e site/dist/$p ] && echo "PRESENT $p"; done; [ -e site/node_modules/oddmisc ] && echo "PRESENT oddmisc package"; echo "check done"
+node -e 'const fs=require("fs"),p=require("path");let d=0,h=0;(function w(x){for(const e of fs.readdirSync(x,{withFileTypes:true})){const f=p.join(x,e.name);if(e.isDirectory())w(f);else if(/\.(html|js|mjs)$/.test(f)){const s=fs.readFileSync(f,"utf8");if(/window\.oddmisc\s*=/.test(s))d++;if(/https?:\/\/[a-z0-9.-]*umami/i.test(s))h++}}})("site/dist");console.log("umami definitions:",d,"| umami hosts:",h)'
 pnpm --dir site test; echo "test exit $?"
 ```
 
-Expected: only `check done` is printed, and the build exits 0. If `tests/music-player-loading.test.mjs` now fails *because the player is disabled*, delete that file, remove it from the `test` script in `site/package.json`, and note this in `UPSTREAM.md`. Any other failing test means a real regression: stop and report it.
+Expected: the build exits 0, the first line prints only `check done`, and the second prints `umami definitions: 0 | umami hosts: 0`. If `tests/music-player-loading.test.mjs` now fails *because the player is disabled*, delete that file, remove it from the `test` script in `site/package.json`, and note this in `UPSTREAM.md`. Any other failing test means a real regression: stop and report it.
 
 - [ ] **Step 9: Update `UPSTREAM.md` and commit**
 
