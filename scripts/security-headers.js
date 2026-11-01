@@ -56,7 +56,11 @@ function buildCSP (scriptHashes) {
     // (@waline/emojis/*/info.json) from unpkg at runtime. Without it the picker
     // silently fails with a connect-src violation. unpkg is a read-only package
     // CDN, so it is not a usable exfiltration sink.
-    "connect-src 'self' https://comment-akasakajelos-projects.vercel.app https://fonts.googleapis.com https://unpkg.com",
+    //
+    // api.giphy.com: the theme never passes Waline a `search` option, so Waline
+    // falls back to its built-in Giphy provider and renders the GIF button. The
+    // results themselves are images, already allowed by img-src https:.
+    "connect-src 'self' https://comment-akasakajelos-projects.vercel.app https://fonts.googleapis.com https://unpkg.com https://api.giphy.com",
     'frame-src https://challenges.cloudflare.com',
     "frame-ancestors 'self'",
     // form-action is not covered by default-src, so without it a form injected into a
@@ -121,14 +125,15 @@ const HANDLER_REWRITES = [
 
 const SCRIPT_TAG = /<script([^>]*)>([\s\S]*?)<\/script>/gi;
 
-// Scripts with src= are already covered by the host allowlist. Non-JS <script>
-// blocks (e.g. application/ld+json) are data, never executed, and need no hash.
+// Scripts with src= are already covered by the host allowlist. JSON data blocks
+// (application/json, application/ld+json) are never executed and need no hash.
+// Everything else is hashed: importmap, speculationrules and legacy JavaScript MIME
+// types are all governed by script-src, and an extra hash for an inert block costs
+// nothing, whereas a missing one silently blocks the script.
 function isExecutableInline (attrs) {
   if (/\ssrc\s*=/i.test(attrs)) return false;
   const type = attrs.match(/\stype\s*=\s*["']?([^"'\s>]+)/i);
-  if (!type) return true;
-  const value = type[1].toLowerCase();
-  return value === 'module' || value === 'text/javascript' || value === 'application/javascript';
+  return !(type && /^application\/(ld\+)?json$/i.test(type[1]));
 }
 
 function collectHashes (html) {
