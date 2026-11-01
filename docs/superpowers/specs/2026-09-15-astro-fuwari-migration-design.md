@@ -1,7 +1,10 @@
 # Migration: Hexo/ShokaX → Astro/Fuwari
 
 Date: 2026-09-15
-Status: Approved (design), pending implementation plan
+Status: **Superseded** on 2026-11-01 by `2026-11-01-astro-mizuki-migration-design.md`.
+Fuwari is unmaintained and pinned to Astro 5.13.10, which carries a critical
+advisory fixed only in Astro ≥ 7.2.8. The URL, cover, CSP and verification
+findings below carried over into the Mizuki design.
 
 ## Goal
 
