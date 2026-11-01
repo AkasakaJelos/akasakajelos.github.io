@@ -3,7 +3,7 @@
 // Post-build check for the policy scripts/security-headers.js injects. Run against
 // the build output directory (default: public):
 //
-//     node tools/verify-csp.js [dir]
+//     node tools/verify-csp.js [dir] [--site-wide]
 //
 // Every HTML page must carry exactly one CSP meta tag, inside <head> and ahead of
 // the first <script>. script-src must not contain any source that would make
@@ -110,11 +110,22 @@ function checkPage (html) {
   if (handlers.size) problems.push('inline event handlers: ' + Array.from(handlers).join(', '));
   if (jsUrls) problems.push(jsUrls + ' javascript: URL(s), which CSP blocks');
 
-  return { problems, hashed };
+  return { problems, hashed, policy };
+}
+
+// swup's head updates insert each page's <meta> CSP, and browsers intersect
+// every policy they have seen. Under client-side navigation the policy must
+// therefore be byte-identical on every page.
+function checkSiteWide (policies) {
+  const distinct = new Set(policies);
+  if (distinct.size <= 1) return null;
+  return distinct.size + ' distinct policies across pages; swup head updates would intersect them';
 }
 
 function main () {
-  const dir = process.argv[2] || 'public';
+  const args = process.argv.slice(2);
+  const siteWide = args.includes('--site-wide');
+  const dir = args.find(a => !a.startsWith('--')) || 'public';
   if (!fs.existsSync(dir)) {
     console.error('[verify-csp] ' + dir + ' does not exist; build the site first');
     process.exitCode = 1;
@@ -130,8 +141,10 @@ function main () {
   }
 
   let failing = 0;
+  const policies = [];
   for (const page of pages) {
-    const { problems, hashed } = checkPage(fs.readFileSync(page, 'utf8'));
+    const { problems, hashed, policy } = checkPage(fs.readFileSync(page, 'utf8'));
+    policies.push(policy);
     if (problems.length === 0) {
       console.log('ok   ' + page + ' (' + hashed + ' inline scripts hashed)');
       continue;
@@ -141,9 +154,15 @@ function main () {
     for (const p of problems) console.log('       - ' + p);
   }
 
-  console.log('\n[verify-csp] ' + pages.length + ' pages checked, ' + failing + ' failing');
+  const siteWideProblem = siteWide ? checkSiteWide(policies) : null;
+  if (siteWideProblem) console.log('FAIL site-wide: ' + siteWideProblem);
+
+  console.log('\n[verify-csp] ' + pages.length + ' pages checked, ' + failing + ' failing' +
+    (siteWide ? ', site-wide ' + (siteWideProblem ? 'FAIL' : 'ok') : ''));
   // exitCode rather than exit(): exit() can truncate output still buffered for a pipe.
-  if (failing) process.exitCode = 1;
+  if (failing || siteWideProblem) process.exitCode = 1;
 }
 
-main();
+if (require.main === module) main();
+
+module.exports = { checkPage, checkSiteWide };
