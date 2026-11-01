@@ -18,6 +18,23 @@ README*, logo.png, _frontmatter.json
   features (ENABLE_CONTENT_SYNC, CONTENT_REPO_URL, CONTENT_DIR, INDEXNOW_KEY,
   INDEXNOW_HOST, BILI_SESSDATA) and was already matched by the root `.env.*`
   ignore rule.
+- astro 7.1.3 -> 7.4.4 (GHSA-26w7-cxv4-gfx2, critical, fixed only in >= 7.2.8);
+  @astrojs/markdown-remark 7.2.1 -> ^7.3.0 to match astro's peer range.
+- axios removed: only the deleted network scripts imported it.
+- Direct bumps: sharp ^0.35.5, sanitize-html ^2.18.0, katex pinned to exactly
+  0.18.10 (0.18.11 is deprecated upstream for accidental breaking changes).
+- pnpm-workspace.yaml: scoped security overrides plus three documented audit
+  ignores for advisories with no published fix (deepmerge, extract-zip x2).
+  Cross-major overrides and why they are safe are explained in that file.
+- Known upstream peer warnings, unchanged: @tailwindcss/typography's
+  "insiders" tailwindcss range, ec-lang-logo wanting @expressive-code/core ^0.41.
+
+## After Task 2
+
+- pnpm audit: 0 advisories reported (registry metadata counts only the three
+  ignored ones).
+- pnpm build: 26 pages, exit 0. pnpm test: 39/39 and 8/8 pass. KaTeX renders on
+  both math demo pages with no katex-error nodes; stylus runs on glob 14.
 
 ## Baseline at vendoring (Task 1)
 
