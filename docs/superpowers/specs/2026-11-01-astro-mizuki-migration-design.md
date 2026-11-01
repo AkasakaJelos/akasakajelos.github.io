@@ -94,7 +94,13 @@ injection requires.
 
 ## Content migration
 
-Three tracked posts move to `site/src/content/posts/`:
+`hello-world` is the only tracked post; it moves to `site/src/content/posts/`.
+The unfinished posts `casa_summer_1`, `cissp_summary1` and `zkp-series` have been
+local-only since 2026-11-01 (untracked and gitignored; commit `21b6903`). Where
+they exist on the author's machine they are converted the same way, and they
+stay gitignored at the new path. They are never committed.
+
+Frontmatter mapping:
 
 | Hexo | Mizuki |
 |---|---|
@@ -106,7 +112,7 @@ Three tracked posts move to `site/src/content/posts/`:
 
 `casa_summer_1` and `cissp_summary1` become `draft: true` and must not appear in
 `dist/`. Both still carry the copy-pasted title `CISSP Learning Journy`; the
-author fixes this before un-drafting. `zkp-series.md` stays local and gitignored.
+author fixes this before un-drafting.
 Mizuki's demo posts are deleted. The About page body moves to
 `site/src/content/spec/about.md`. The avatar moves to
 `site/src/assets/images/avatar.jpg`.

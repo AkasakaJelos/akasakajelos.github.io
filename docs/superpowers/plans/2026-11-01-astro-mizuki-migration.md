@@ -20,6 +20,7 @@ Spec: `docs/superpowers/specs/2026-11-01-astro-mizuki-migration-design.md`
 - No build-time network fetches beyond package install and Astro's font provider.
 - No third-party analytics: `oddmisc` removed, Clarity disabled.
 - Drafts (`draft: true`) never appear in `dist/`.
+- The unfinished posts `casa_summer_1`, `cissp_summary1` and `zkp-series` are never committed, at any path. They are local-only and gitignored.
 - Run every command from the repository root unless a step says otherwise. Site commands use `pnpm --dir site …` until Task 10.
 - Commit messages: Conventional Commits, decision trailers where applicable, ending with `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`.
 
@@ -446,7 +447,7 @@ git commit -m "feat(site): set Bibliothek site identity, profile and about page"
 ### Task 5: Migrate posts with date permalinks
 
 **Files:**
-- Create: `site/tests/dist-urls.test.mjs`, `site/src/content/posts/{hello-world,casa_summer_1,cissp_summary1}.md`
+- Create: `site/tests/dist-urls.test.mjs`, `site/src/content/posts/hello-world.md`; locally only, never committed: `site/src/content/posts/{casa_summer_1,cissp_summary1}.md`
 - Modify: `site/src/config/permalinkConfig.ts`, `site/src/pages/posts/[...slug].astro`, `.gitignore`
 - Delete: Mizuki demo posts under `site/src/content/posts/`
 
@@ -519,16 +520,38 @@ pnpm --dir site build >/dev/null && (cd site && node --test tests/dist-urls.test
 
 Expected: `fail` is at least 2 ("hello-world keeps its Hexo URL" and "no /posts/ duplicates").
 
-- [ ] **Step 3: Replace demo posts with the three tracked posts**
+- [ ] **Step 3: Ignore the local-only drafts at their new path, before writing anything**
+
+`casa_summer_1`, `cissp_summary1` and `zkp-series` are unfinished and have been untracked since 2026-11-01 (commit `21b6903` on `main_2`). They exist only on the author's machine and must never be committed. Append to `.gitignore`:
+
+```
+site/src/content/posts/zkp-series.md
+site/src/content/posts/casa_summer_1.md
+site/src/content/posts/cissp_summary1.md
+```
+
+```bash
+for f in zkp-series casa_summer_1 cissp_summary1; do git check-ignore -q "site/src/content/posts/$f.md" && echo "ignored $f"; done
+```
+
+Expected: three `ignored` lines. Do not continue until all three print.
+
+- [ ] **Step 4: Replace demo posts with hello-world, and convert local drafts if present**
 
 ```bash
 find site/src/content/posts -mindepth 1 -delete
 for f in hello-world casa_summer_1 cissp_summary1; do
-  awk 'f>=2{print} /^---$/{f++}' "source/_posts/$f.md" > "/tmp/$f.body"
+  if [ -f "source/_posts/$f.md" ]; then
+    awk 'f>=2{print} /^---$/{f++}' "source/_posts/$f.md" > "/tmp/$f.body"
+  else
+    echo "skip $f (not on this machine)"
+  fi
 done
 ```
 
-Each post file is its frontmatter block below followed by its body. Save a frontmatter block as `/tmp/<name>.fm`, then build the file with `cat /tmp/<name>.fm /tmp/<name>.body > site/src/content/posts/<name>.md`.
+`hello-world.md` is tracked, so it always exists. The two drafts exist only in the author's own checkout; a fresh clone or worktree prints `skip` for both, which is expected.
+
+Each post file is its frontmatter block below followed by its body. Save a frontmatter block as `/tmp/<name>.fm`, then build the file with `cat /tmp/<name>.fm /tmp/<name>.body > site/src/content/posts/<name>.md`. Write the two draft files only when their `/tmp/<name>.body` exists.
 
 Write `site/src/content/posts/hello-world.md` as this frontmatter followed by `/tmp/hello-world.body`:
 
@@ -578,18 +601,14 @@ tags:
 The titles are copied verbatim, including the existing error. The spec records that the author fixes them before un-drafting.
 
 ```bash
-for f in hello-world casa_summer_1 cissp_summary1; do diff <(awk 'f>=2{print} /^---$/{f++}' site/src/content/posts/$f.md) /tmp/$f.body && echo "body ok $f"; done
+for f in hello-world casa_summer_1 cissp_summary1; do
+  [ -f "/tmp/$f.body" ] || continue
+  diff <(awk 'f>=2{print} /^---$/{f++}' site/src/content/posts/$f.md) /tmp/$f.body && echo "body ok $f"
+done
+git status --short --untracked-files=all site/src/content/posts
 ```
 
-Expected: three `body ok` lines.
-
-- [ ] **Step 4: Keep the local-only post ignored at its new path**
-
-Append to `.gitignore`:
-
-```
-site/src/content/posts/zkp-series.md
-```
+Expected: a `body ok` line for each post converted, and `git status` lists **only** `site/src/content/posts/hello-world.md`. If a draft appears, Step 3 did not take effect: stop.
 
 - [ ] **Step 5: Enable date permalinks**
 
@@ -1395,19 +1414,23 @@ Mizuki's `.gitignore` is now at the root. It contains an unanchored `plans` line
 *.pem
 *.key
 
-# Local-only draft. Both paths: the Hexo copy stays on disk after
-# `git rm -r source` because it was never tracked.
+# Local-only unfinished posts. Both paths: the Hexo copies stay on disk
+# after `git rm -r source` because they are untracked.
 source/_posts/zkp-series.md
+source/_posts/casa_summer_1.md
+source/_posts/cissp_summary1.md
 src/content/posts/zkp-series.md
+src/content/posts/casa_summer_1.md
+src/content/posts/cissp_summary1.md
 ```
 
 ```bash
 git check-ignore -v docs/superpowers/plans/2026-11-01-astro-mizuki-migration.md; echo "plans exit $?"
 git check-ignore -v public/covers 2>/dev/null; echo "public exit $?"
-git check-ignore -q source/_posts/zkp-series.md; echo "draft exit $?"
+for f in zkp-series casa_summer_1 cissp_summary1; do git check-ignore -q "source/_posts/$f.md" && git check-ignore -q "src/content/posts/$f.md" && echo "draft ignored $f"; done
 ```
 
-Expected: `plans exit 1` and `public exit 1` (neither ignored), and `draft exit 0` (the private draft is still ignored). If `draft exit` is not 0, stop: the next commit would publish it.
+Expected: `plans exit 1` and `public exit 1` (neither ignored), and three `draft ignored` lines. If any is missing, stop: the next commit would publish that draft.
 
 - [ ] **Step 4: Point the scripts at the new layout**
 
@@ -1495,7 +1518,7 @@ git commit -m "feat!: switch the site from Hexo/ShokaX to Astro/Mizuki" -m "Prom
 Then confirm the draft did not ride along:
 
 ```bash
-git show --stat HEAD | grep -c zkp-series
+git show --stat HEAD | grep -cE "zkp-series|casa_summer_1|cissp_summary1"
 ```
 
 Expected: `0`.
