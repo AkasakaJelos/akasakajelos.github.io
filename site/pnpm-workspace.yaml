@@ -1,0 +1,100 @@
+allowBuilds:
+  esbuild: true
+  sharp: true
+  ttf2woff2: true
+minimumReleaseAgeExclude:
+  - oddmisc
+  - '@astrojs/*'
+  - astro
+  - '@img/sharp-darwin-arm64@0.35.0'
+  - '@img/sharp-darwin-x64@0.35.0'
+  - '@img/sharp-freebsd-wasm32@0.35.0'
+  - '@img/sharp-libvips-darwin-arm64@1.3.0'
+  - '@img/sharp-libvips-darwin-x64@1.3.0'
+  - '@img/sharp-libvips-linux-arm64@1.3.0'
+  - '@img/sharp-libvips-linux-arm@1.3.0'
+  - '@img/sharp-libvips-linux-ppc64@1.3.0'
+  - '@img/sharp-libvips-linux-riscv64@1.3.0'
+  - '@img/sharp-libvips-linux-s390x@1.3.0'
+  - '@img/sharp-libvips-linux-x64@1.3.0'
+  - '@img/sharp-libvips-linuxmusl-arm64@1.3.0'
+  - '@img/sharp-libvips-linuxmusl-x64@1.3.0'
+  - '@img/sharp-linux-arm64@0.35.0'
+  - '@img/sharp-linux-arm@0.35.0'
+  - '@img/sharp-linux-ppc64@0.35.0'
+  - '@img/sharp-linux-riscv64@0.35.0'
+  - '@img/sharp-linux-s390x@0.35.0'
+  - '@img/sharp-linux-x64@0.35.0'
+  - '@img/sharp-linuxmusl-arm64@0.35.0'
+  - '@img/sharp-linuxmusl-x64@0.35.0'
+  - '@img/sharp-wasm32@0.35.0'
+  - '@img/sharp-webcontainers-wasm32@0.35.0'
+  - '@img/sharp-win32-arm64@0.35.0'
+  - '@img/sharp-win32-ia32@0.35.0'
+  - '@img/sharp-win32-x64@0.35.0'
+  - sharp@0.35.0
+  - axios@1.18.1
+  - node-html-parser@8.0.3
+  - '@biomejs/biome@2.5.2'
+  - '@biomejs/cli-darwin-arm64@2.5.2'
+  - '@biomejs/cli-darwin-x64@2.5.2'
+  - '@biomejs/cli-linux-arm64-musl@2.5.2'
+  - '@biomejs/cli-linux-arm64@2.5.2'
+  - '@biomejs/cli-linux-x64-musl@2.5.2'
+  - '@biomejs/cli-linux-x64@2.5.2'
+  - '@biomejs/cli-win32-arm64@2.5.2'
+  - '@biomejs/cli-win32-x64@2.5.2'
+  - '@iconify-json/material-symbols@1.2.82'
+
+# Security overrides (pnpm 11 reads these here, not from package.json).
+# Rule: key on the vulnerable range, value is the caret of the lowest patched
+# version, so no override crosses a major unless the fix exists only there.
+# Cross-major cases are deliberate and recorded in UPSTREAM.md:
+#   glob 7/10/13 -> 14 and minimatch 3/5/9/10 -> 11 move together (glob 14 is
+#   built for minimatch 11; stylus 0.64, the only consumer the build runs, works
+#   with it). glob 7, minimatch 3/5 and serialize-javascript 4 come from
+#   microbundle, a library-bundler CLI that @swup plugins list as a dependency
+#   and this build never executes.
+overrides:
+  "@xmldom/xmldom@<0.8.15": "^0.8.15"
+  "brace-expansion@>=1.0.0 <1.1.21": "^1.1.21"
+  "brace-expansion@>=2.0.0 <2.1.7": "^2.1.7"
+  "brace-expansion@>=5.0.0 <5.0.12": "^5.0.12"
+  "colord@<2.9.4": "^2.9.4"
+  "devalue@<5.9.3": "^5.9.3"
+  "fast-uri@<3.1.9": "^3.1.9"
+  "glob@>=7.0.0 <14.0.2": "^14.0.2"
+  "js-yaml@>=3.0.0 <3.15.2": "^3.15.2"
+  "js-yaml@>=4.0.0 <4.3.2": "^4.3.2"
+  # katex 0.18.11 is deprecated upstream ("accidentally published with
+  # breaking changes"); 0.18.10 is the last good 0.18 release.
+  "katex@<0.18.2": "0.18.10"
+  "minimatch@<11.0.1": "^11.0.1"
+  "nanoid@>=3.0.0 <3.3.18": "^3.3.18"
+  "postcss@>=8.0.0 <8.5.23": "^8.5.23"
+  "postcss-selector-parser@>=6.0.0 <6.1.5": "^6.1.5"
+  "postcss-selector-parser@>=7.0.0 <7.1.6": "^7.1.6"
+  "serialize-javascript@<7.1.3": "^7.1.3"
+  "sharp@<0.35.5": "^0.35.5"
+  "smol-toml@>=1.0.0 <1.8.1": "^1.8.1"
+  "source-map-js@<1.2.2": "^1.2.2"
+  "svgo@>=2.0.0 <2.8.4": "^2.8.4"
+  "svgo@>=3.0.0 <3.3.5": "^3.3.5"
+  "undici@>=7.0.0 <7.30.1": "^7.30.1"
+  "vite@>=8.0.0 <8.1.6": "^8.1.6"
+  "zod@>=4.0.0 <4.6.6": "^4.6.6"
+
+auditConfig:
+  ignoreGhsas:
+    # deepmerge prototype poisoning: no fixed release exists (4.3.1 is the
+    # latest on npm; the advisory's ">=4.3.2" was never published). Its
+    # consumers merge author-written config only: @sveltejs/vite-plugin-svelte
+    # (options from svelte.config.js) and @rollup/plugin-node-resolve via
+    # microbundle, which this build never executes. Revisit if either changes.
+    - GHSA-gcqx-w48m-w2h4
+    # extract-zip symlink traversal / arbitrary write: no fixed release exists
+    # (2.0.1 is the latest on npm). Only @iconify/tools download helpers use it,
+    # to unpack downloaded icon archives; astro-icon and this site never call a
+    # download or unzip API, so no archive ever reaches it.
+    - GHSA-jmr9-qjv8-65gv
+    - GHSA-7pqw-9j4j-h8q3
