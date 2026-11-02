@@ -1,0 +1,78 @@
+---
+import { getSortedPosts } from "@utils/content-utils";
+import { getPostUrl } from "@utils/url-utils";
+import { Icon } from "astro-icon/components";
+
+interface Props {
+	prevSlug?: string;
+	prevTitle?: string;
+	nextSlug?: string;
+	nextTitle?: string;
+	class?: string;
+}
+
+const {
+	prevSlug,
+	prevTitle,
+	nextSlug,
+	nextTitle,
+	class: className,
+} = Astro.props;
+
+const onlyOneButton = (prevSlug && !nextSlug) || (!prevSlug && nextSlug);
+
+// prevSlug/nextSlug are entry ids. Resolve them to entries so the links honour
+// date permalinks: getPostUrlBySlug() would point at /posts/<slug>/, which is
+// not emitted while permalinks are on.
+const entries = prevSlug || nextSlug ? await getSortedPosts() : [];
+const urlFor = (id?: string) => {
+	const entry = id ? entries.find((e) => e.id === id) : undefined;
+	return entry ? getPostUrl(entry) : "#";
+};
+---
+
+<div
+	class:list={[
+		"flex flex-col mb-4 gap-4 overflow-hidden w-full",
+		className,
+		!onlyOneButton && "md:flex-row md:justify-between",
+	]}
+>
+	{
+		prevSlug && (
+			<a
+				href={urlFor(prevSlug)}
+				class="w-full font-bold overflow-hidden active:scale-95"
+			>
+				<div class="btn-card rounded-2xl w-full h-15 max-w-full px-4 flex items-center justify-start! gap-4">
+					<Icon
+						name="material-symbols:chevron-left-rounded"
+						class="text-[2rem] text-(--primary)"
+					/>
+					<div class="overflow-hidden transition text-ellipsis whitespace-nowrap max-w-[calc(100%-3rem)] text-black/75 dark:text-white/75">
+						{prevTitle}
+					</div>
+				</div>
+			</a>
+		)
+	}
+
+	{
+		nextSlug && (
+			<a
+				href={urlFor(nextSlug)}
+				class="w-full font-bold overflow-hidden active:scale-95"
+			>
+				<div class="btn-card rounded-2xl w-full h-15 max-w-full px-4 flex items-center justify-end! gap-4">
+					<div class="overflow-hidden transition text-ellipsis whitespace-nowrap max-w-[calc(100%-3rem)] text-black/75 dark:text-white/75">
+						{nextTitle}
+					</div>
+					<Icon
+						name="material-symbols:chevron-right-rounded"
+						class="text-[2rem] text-(--primary)"
+					/>
+				</div>
+			</a>
+		)
+	}
+</div>

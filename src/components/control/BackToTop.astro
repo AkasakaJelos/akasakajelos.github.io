@@ -1,0 +1,24 @@
+---
+import FloatingButton from "@components/common/FloatingButton.astro";
+---
+
+<FloatingButton
+	id="back-to-top-btn"
+	icon="material-symbols:keyboard-arrow-up-rounded"
+	ariaLabel="Back to Top"
+	class="hide"
+/>
+
+<script is:raw is:inline>
+	function backToTop() {
+		window.scroll({ top: 0, behavior: "smooth" });
+	}
+	// Delegated rather than onclick="…": the site CSP blocks inline handlers, and
+	// a document listener survives swup content swaps. Bound once per page load.
+	if (!window.__backToTopBound) {
+		window.__backToTopBound = true;
+		document.addEventListener("click", function (e) {
+			if (e.target.closest && e.target.closest("#back-to-top-btn")) backToTop();
+		});
+	}
+</script>

@@ -1,18 +1,19 @@
-name: Deploy Hexo to GitHub Pages
+name: Deploy Astro to GitHub Pages
 
 on:
   push:
     branches:
       - main_2
+  # Build-only runs: check a branch in CI before it reaches main_2.
+  pull_request:
+    branches:
+      - main_2
+  workflow_dispatch:
 
+# The build job runs third-party install scripts, so it gets read-only
+# access; only the deploy job can write to Pages or mint an OIDC token.
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
 
 jobs:
   build:
@@ -28,30 +29,42 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
-          node-version: '22'
+          node-version-file: .node-version
 
+      # No `version:` — the action reads packageManager (pnpm 11) from package.json.
       - name: Setup pnpm
         uses: pnpm/action-setup@7088e561eb65bb68695d245aa206f005ef30921d # v4.1.0
-        with:
-          version: 9
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build Hexo
-        run: npx hexo generate
+      - name: Test
+        run: pnpm test
 
-      # A theme or plugin change that adds an unhashed inline script or handler
-      # would ship JavaScript the page's own CSP blocks. Fail the deploy instead.
-      - name: Verify CSP
-        run: pnpm run verify
+      - name: Build
+        run: pnpm build
+
+      # The build injects one site-wide CSP. A theme change that adds an
+      # unhashed inline script or handler, a /posts/ link or a published draft
+      # fails the deploy instead of shipping.
+      - name: Verify build output
+        run: |
+          pnpm run test:dist
+          pnpm run verify
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
         with:
-          path: public
+          path: dist
 
   deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main_2'
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: "pages"
+      cancel-in-progress: false
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
