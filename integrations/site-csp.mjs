@@ -18,12 +18,12 @@ const INLINE_HANDLER = /<[a-zA-Z][^>]*\son[a-z]+\s*=/;
 
 export const DEFAULT_SOURCES = Object.freeze({
 	// Pagefind is WebAssembly; narrower than 'unsafe-eval'.
-	script: ["'wasm-unsafe-eval'", "https://giscus.app"],
-	// giscus injects its own stylesheet; Mizuki emits style="" attributes,
-	// which cannot be hashed.
-	style: ["'unsafe-inline'", "https://giscus.app"],
-	// @iconify/svelte fetches icons at runtime.
-	connect: ["https://api.iconify.design"],
+	script: ["'wasm-unsafe-eval'"],
+	// Mizuki emits style="" attributes, which cannot be hashed.
+	style: ["'unsafe-inline'"],
+	// Runtime icons are bundled (integrations/iconify-offline.mjs) and the giscus
+	// loader is vendored (public/giscus/), so only the comment iframe is remote.
+	connect: [],
 	frame: ["https://giscus.app"],
 	img: ["data:", "https:"],
 });

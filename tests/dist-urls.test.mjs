@@ -75,12 +75,41 @@ test("posts mount giscus, configured for this repository", () => {
 	assert.ok(!html.includes('"term":'), "giscus config carries a per-page term");
 });
 
-test("the CSP lets giscus load its script, stylesheet and iframe", () => {
+const directive = (html, name) =>
+	(html.match(/http-equiv="Content-Security-Policy" content="([^"]+)"/)?.[1] ?? "")
+		.split(";")
+		.map((d) => d.trim().split(/\s+/))
+		.find(([n]) => n === name) ?? [];
+
+// The giscus loader and its stylesheet are vendored under public/giscus/, so
+// giscus.app runs no script in the page; only the comment iframe comes from it.
+test("giscus: only the iframe comes from giscus.app", () => {
 	const html = read("2025/04/25/hello-world/index.html");
-	const policy = html.match(/http-equiv="Content-Security-Policy" content="([^"]+)"/)?.[1] ?? "";
-	for (const directive of ["script-src", "style-src", "frame-src"]) {
-		const sources = policy.split(";").map((d) => d.trim().split(/\s+/)).find(([name]) => name === directive) ?? [];
-		assert.ok(sources.includes("https://giscus.app"), `${directive} lacks https://giscus.app`);
+	assert.ok(directive(html, "frame-src").includes("https://giscus.app"), "frame-src lacks giscus");
+	for (const name of ["script-src", "style-src"]) {
+		assert.ok(!directive(html, name).includes("https://giscus.app"), `${name} still allows giscus.app`);
+	}
+	assert.ok(html.includes('"/giscus/client.js"'), "post does not load the vendored giscus client");
+	const client = read("giscus/client.js");
+	assert.ok(client.includes('k="https://giscus.app"'), "vendored client does not target giscus.app");
+	assert.ok(!client.includes("new URL(m.src)"), "vendored client still derives its origin from its own URL");
+	assert.ok(client.includes('"/giscus/default.css"'), "vendored client loads a remote stylesheet");
+	assert.ok(read("giscus/default.css").includes(".giscus-frame"), "vendored giscus stylesheet missing");
+});
+
+// Icons are bundled at build time (integrations/iconify-offline.mjs).
+test("no page contacts the Iconify API", () => {
+	for (const file of pages) {
+		assert.ok(!readFileSync(file, "utf8").includes("api.iconify.design"), `${file} references api.iconify.design`);
+	}
+	const connect = directive(read("index.html"), "connect-src");
+	assert.deepEqual(connect, ["connect-src", "'self'"], `connect-src is ${connect.join(" ")}`);
+	for (const name of ["script-src", "style-src"]) {
+		const remote = directive(read("index.html"), name).filter((s) => /^https?:/.test(s));
+		assert.deepEqual(remote, [], `${name} allows remote origins: ${remote.join(" ")}`);
+	}
+	for (const file of walk(join(DIST, "_astro")).filter((f) => f.endsWith(".js"))) {
+		assert.ok(!readFileSync(file, "utf8").includes("api.iconify.design"), `${file} can still call the Iconify API`);
 	}
 });
 

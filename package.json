@@ -10,7 +10,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "type-check": "tsc --noEmit",
-    "test": "node --experimental-strip-types --test tests/markdown-enhancements.test.mjs tests/layout-regressions.test.mjs tests/image-loading.test.mjs tests/music-player-loading.test.mjs tests/covers.test.mjs tests/site-csp.test.mjs && node tests/crypto.test.mjs && node --test tools/verify-csp.test.cjs",
+    "test": "node --experimental-strip-types --test tests/markdown-enhancements.test.mjs tests/layout-regressions.test.mjs tests/image-loading.test.mjs tests/music-player-loading.test.mjs tests/covers.test.mjs tests/site-csp.test.mjs tests/iconify-offline.test.mjs tests/giscus-vendor.test.mjs && node tests/crypto.test.mjs && node --test tools/verify-csp.test.cjs",
     "prepare-fonts": "node scripts/prepare-fonts.mjs",
     "check-fonts": "node scripts/check-font-loading.mjs",
     "prepare-images": "node scripts/prepare-default-images.mjs",

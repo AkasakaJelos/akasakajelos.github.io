@@ -105,6 +105,15 @@ README*, logo.png, _frontmatter.json
   iconify-icon, not a CSP exception. astro.config.mjs no longer lets Vite
   inline fonts as data: URIs (KaTeX_Size3), so font-src stays 'self'.
 
+- No third-party script or fetch in the page: integrations/iconify-offline.mjs
+  resolves `@iconify/svelte` to its OfflineIcon plus the icons the source
+  references (same scan as astro-icon), so nothing calls api.iconify.design;
+  the Iconify preconnect in layouts/partials/HeadTags.astro is gone. The giscus
+  loader and stylesheet are vendored in public/giscus/ (MIT, patched to target
+  https://giscus.app; see the file header), so giscus.app only serves the
+  comment iframe. Refresh the vendored copy from https://giscus.app/client.js
+  when giscus changes its embed, and re-apply both patches.
+
 ## After Task 2
 
 - pnpm audit: 0 advisories reported (registry metadata counts only the three

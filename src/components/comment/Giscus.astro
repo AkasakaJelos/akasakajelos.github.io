@@ -56,7 +56,8 @@ const config = { ...commentConfig.giscus };
 			container.innerHTML = "";
 
 			const script = document.createElement("script");
-			script.src = "https://giscus.app/client.js";
+			// Vendored copy (public/giscus/): giscus.app only serves the iframe.
+			script.src = "/giscus/client.js";
 			script.setAttribute("data-repo", config.repo);
 			script.setAttribute("data-repo-id", config.repoId);
 			script.setAttribute("data-category", config.category);
@@ -76,7 +77,6 @@ const config = { ...commentConfig.giscus };
 				config.lang ? config.lang.replace("_", "-") : "en",
 			);
 			script.setAttribute("data-loading", config.loading);
-			script.crossOrigin = "anonymous";
 			script.async = true;
 
 			container.appendChild(script);

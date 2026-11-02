@@ -47,6 +47,7 @@ import { remarkMermaid } from "./src/plugins/remark-mermaid.js";
 import { remarkPlantuml } from "./src/plugins/remark-plantuml.mjs";
 import { remarkWikiLink } from "./src/plugins/remark-wiki-link.mjs";
 import { resolveFontMode } from "./src/utils/fontMode.ts";
+import iconifyOffline from "./integrations/iconify-offline.mjs";
 import siteCsp from "./integrations/site-csp.mjs";
 
 const customFontsEnabled = resolveFontMode(siteConfig) === "custom";
@@ -317,11 +318,11 @@ export default defineConfig({
 		}),
 	},
 	vite: {
-		plugins: [tailwindcss()],
+		// iconifyOffline: runtime icons come from the build, not api.iconify.design.
+		plugins: [iconifyOffline(), tailwindcss()],
 		// 开发环境预打包优化：将常用依赖提前编译，避免首次页面加载时 on-demand 编译导致 8s+ 的等待
 		optimizeDeps: {
 			include: [
-				"@iconify/svelte",
 				"svelte",
 				"svelte/transition",
 				"svelte/easing",
