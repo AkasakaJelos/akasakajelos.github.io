@@ -92,9 +92,3 @@ auditConfig:
     # (options from svelte.config.js) and @rollup/plugin-node-resolve via
     # microbundle, which this build never executes. Revisit if either changes.
     - GHSA-gcqx-w48m-w2h4
-    # extract-zip symlink traversal / arbitrary write: no fixed release exists
-    # (2.0.1 is the latest on npm). Only @iconify/tools download helpers use it,
-    # to unpack downloaded icon archives; astro-icon and this site never call a
-    # download or unzip API, so no archive ever reaches it.
-    - GHSA-jmr9-qjv8-65gv
-    - GHSA-7pqw-9j4j-h8q3
