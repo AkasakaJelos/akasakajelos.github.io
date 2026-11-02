@@ -23,8 +23,10 @@ README*, logo.png, _frontmatter.json
 - axios removed: only the deleted network scripts imported it.
 - Direct bumps: sharp ^0.35.5, sanitize-html ^2.18.0, katex pinned to exactly
   0.18.10 (0.18.11 is deprecated upstream for accidental breaking changes).
-- pnpm-workspace.yaml: scoped security overrides plus three documented audit
-  ignores for advisories with no published fix (deepmerge, extract-zip x2).
+- pnpm-workspace.yaml: scoped security overrides plus one documented audit
+  ignore for an advisory with no published fix (deepmerge). astro-icon
+  ^1.2.0 (@iconify/tools 5, which unzips with fflate) removed extract-zip
+  and its two advisories.
   Cross-major overrides and why they are safe are explained in that file.
 - Known upstream peer warnings, unchanged: @tailwindcss/typography's
   "insiders" tailwindcss range, ec-lang-logo wanting @expressive-code/core ^0.41.
