@@ -166,7 +166,15 @@ export const siteConfig: SiteConfig = {
 			title: "Bibliothek",
 			switchable: true,
 
-			subtitle: ["Domus Sapientiae"],
+			// The typewriter shows these in order, starting with the first, and loops.
+			subtitle: [
+				"Domus Sapientiae",
+				"特別なことはないけど、君がいると十分です",
+				"今でもあなたは私の光",
+				"君ってさ、知らないうちに私の毎日になってたよ",
+				"君と話すと、なんか毎日がちょっと楽しくなるんだ",
+				"今日はなんでもない日。でも、ちょっとだけいい日",
+			],
 			typewriter: {
 				enable: true, // 启用副标题打字机效果
 
